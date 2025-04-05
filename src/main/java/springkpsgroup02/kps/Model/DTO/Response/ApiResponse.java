@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Model.DTO.Response;
+package springkpsgroup02.kps.Model.DTO.Response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

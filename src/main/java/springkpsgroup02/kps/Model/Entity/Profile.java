@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Model.Entity;
+package springkpsgroup02.kps.Model.Entity;
 
 public class Profile {
 

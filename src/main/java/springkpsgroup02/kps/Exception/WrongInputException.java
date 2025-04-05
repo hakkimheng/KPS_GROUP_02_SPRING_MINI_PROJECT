@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Exception;
+package springkpsgroup02.kps.Exception;
 
 public class WrongInputException extends RuntimeException{
     public WrongInputException(String message) {

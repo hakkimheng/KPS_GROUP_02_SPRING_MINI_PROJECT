@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Exception;
+package springkpsgroup02.kps.Exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

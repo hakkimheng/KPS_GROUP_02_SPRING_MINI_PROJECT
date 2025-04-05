@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Controller;
+package springkpsgroup02.kps.Controller;
 
 
 public class ProfileController {

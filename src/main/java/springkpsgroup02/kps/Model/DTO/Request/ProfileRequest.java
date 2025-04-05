@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Model.DTO.Request;
+package springkpsgroup02.kps.Model.DTO.Request;
 
 public class ProfileRequest {
 

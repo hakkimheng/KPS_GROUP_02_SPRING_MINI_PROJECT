@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Model.DTO.Response;
+package springkpsgroup02.kps.Model.DTO.Response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
