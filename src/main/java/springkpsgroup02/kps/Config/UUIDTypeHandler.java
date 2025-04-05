@@ -1,4 +1,4 @@
-package springkpsgroup02.kps_group_02_spring_mini_project.Config;
+package springkpsgroup02.kps.Config;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
