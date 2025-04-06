@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springkpsgroup02.kps.Model.DTO.Response.ApiResponse;
 import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;
 import springkpsgroup02.kps.Model.Entity.Achievement;
+import springkpsgroup02.kps.Repository.ProfileRepository;
 import springkpsgroup02.kps.Service.AchievementService;
 
 
@@ -23,6 +24,8 @@ import java.util.UUID;
 public class AchievementController extends BaseResponse {
 
     private final AchievementService achievementService;
+    private final ProfileRepository profileRepository;
+
 
 
     // get all achievement
@@ -36,13 +39,15 @@ public class AchievementController extends BaseResponse {
 
         return responseEntity(true , "Achievements retrieved successfully!", HttpStatus.OK , achievementList);
     }
+    // get achievement by current user id and xp completed requirement
     @GetMapping("/app-users")
     public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievementByAppUser(
             @RequestParam(defaultValue = "5") @Positive Integer size ,
             @RequestParam(defaultValue = "1") @Positive Integer page)
     {
-        UUID appUserId = UUID.fromString("3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c");
-        List<Achievement> achievementListByUser = achievementService.getAchievementById( appUserId , 100 , size , page);
+        UUID appUserId = profileRepository.getCurrentUser().getProfileId();
+        Integer xp = profileRepository.getCurrentUser().getXp();
+        List<Achievement> achievementListByUser = achievementService.getAchievementById( appUserId , xp , size , page);
         return responseEntity(true , "Achievements for the specified App User retrieved successfully!" , HttpStatus.OK, achievementListByUser);
     }
 }

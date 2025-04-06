@@ -31,17 +31,11 @@ public interface AchievementRepository {
         )
         LIMIT #{size} OFFSET #{size} * (#{page} - 1)
     """)
+    // get achievement by current user id and xp completed requirement
     List<Achievement> retrievedAchievementById(@Param("appUserId") UUID appUserId,
                                                @Param("xp") Integer xp,
                                                @Param("size") Integer size,
                                                @Param("page") Integer page);
-
-    @Insert("""
-        INSERT INTO app_user_achievements (app_user_id, achievement_id)
-        VALUES (#{appUserId}, #{achievementId})
-    """)
-    void setAchievementForUser(@Param("appUserId") UUID appUserId,
-                               @Param("achievementId") UUID achievementId);
 
 
 }

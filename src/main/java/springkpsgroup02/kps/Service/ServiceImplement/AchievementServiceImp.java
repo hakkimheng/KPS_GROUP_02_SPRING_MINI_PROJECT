@@ -3,6 +3,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import springkpsgroup02.kps.Model.Entity.Achievement;
 import springkpsgroup02.kps.Repository.AchievementRepository;
+import springkpsgroup02.kps.Repository.ProfileRepository;
 import springkpsgroup02.kps.Service.AchievementService;
 
 
@@ -23,6 +24,7 @@ public class AchievementServiceImp implements AchievementService {
     // get all achievement by user id
     @Override
     public List<Achievement> getAchievementById(UUID appUserId , Integer xp,  Integer size , Integer page){
+
         return achievementRepo.retrievedAchievementById(appUserId , xp ,  size , page);
     }
 
