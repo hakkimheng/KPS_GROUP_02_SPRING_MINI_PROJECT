@@ -23,9 +23,5 @@ public class ProfileRequest {
             message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     )
     private String password;
-    private Integer level;
-    private Integer xp;
     private String profileImage;
-    private Boolean isVerified;
-    private Date createdAt;
 }
