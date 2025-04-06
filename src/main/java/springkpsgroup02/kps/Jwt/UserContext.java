@@ -16,4 +16,12 @@ public class UserContext {
     public static void clear() {
         userIdHolder.remove();
     }
+
+    public static UUID getUserIdAsUUID() {
+        String userId = userIdHolder.get();
+        if (userId != null) {
+            return UUID.fromString(userId);
+        }
+        return null;
+    }
 }

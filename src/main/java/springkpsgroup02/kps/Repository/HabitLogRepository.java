@@ -13,6 +13,7 @@ public interface HabitLogRepository {
     @Select("""
             INSERT INTO habit_logs(status, habit_id,xp_earned)
             values (#{habitLog.status},#{habitLog.habitId},10)
+            
             returning *
             """)
     @Results(id = "habitLogMapper", value = {
@@ -25,7 +26,6 @@ public interface HabitLogRepository {
             )
     })
     HabitLog createHabitLog(@Param("habitLog") HabitLogRequest habitLogRequest);
-
     // get all habit logs
     @Select("""
             select * from habit_logs where habit_id = #{habitId}
@@ -37,19 +37,19 @@ public interface HabitLogRepository {
 
     @Update("""
             update app_users set xp = xp + 10
-            where app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+            where app_user_id = #{appUserId}
             """)
-    void updateUserXp();
+    void updateUserXp(UUID appUserId);
 
     @Select("""
     SELECT xp from app_users
-    WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    WHERE app_user_id = #{appUserId}
     """)
     @Result(property = "xp" , column = "xp")
-    Integer getXp();
+    Integer getXp(UUID appUserId);
     @Update("""
     UPDATE app_users SET level = #{level}
-    where app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    where app_user_id = #{appUserId}
     """)
-    void updateLevel(Integer level);
+    void updateLevel(Integer level , UUID appUserId);
 }

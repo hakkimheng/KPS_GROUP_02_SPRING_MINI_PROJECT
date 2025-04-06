@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springkpsgroup02.kps.Jwt.UserContext;
 import springkpsgroup02.kps.Model.DTO.Request.HabitLogRequest;
 import springkpsgroup02.kps.Model.DTO.Response.ApiResponse;
 import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;

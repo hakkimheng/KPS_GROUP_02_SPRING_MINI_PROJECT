@@ -17,17 +17,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static springkpsgroup02.kps.Jwt.UserContext.getUserIdAsUUID;
+
 @Service
 @RequiredArgsConstructor
 public class HabitServiceImp  implements HabitService {
 
     // inject Habit repository
     private final HabitRepository habitRepo;
-
-
     @Override
-    public List<Habit> getAllHabits(Integer offset, Integer limit) {
-        return habitRepo.findAllHabits(offset,limit);
+    public List<Habit> getAllHabits(Integer offset, Integer limit, UUID userId) {
+        return habitRepo.findAllHabits(offset,limit, userId);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class HabitServiceImp  implements HabitService {
     }
 
     @Override
-    public Habit createHabit(HabitRequest habitRequest) {
+    public Habit createHabit(HabitRequest habitRequest , UUID userId) {
 
         boolean isFrequencyFound = false;
         for (Frequency frequency : Frequency.values()) {
@@ -54,12 +54,12 @@ public class HabitServiceImp  implements HabitService {
             throw new InvalidException("Allow Only [WEEKLY, MONTHLY, DAILY]");
         }
 
-        return habitRepo.insertHabit(habitRequest);
+        return habitRepo.insertHabit(habitRequest , userId);
     }
 
     @Override
-    public Habit updateHabitById(UUID habitId, HabitRequest habitRequest) {
-        Habit habit = habitRepo.updateHabitById(habitId, habitRequest);
+    public Habit updateHabitById(UUID habitId, HabitRequest habitRequest, UUID userId) {
+        Habit habit = habitRepo.updateHabitById(habitId, habitRequest,userId);
         if(habit == null) {
             throw new NotFoundException("Habit ID " + habitId + " not found");
         }
@@ -78,12 +78,12 @@ public class HabitServiceImp  implements HabitService {
     }
 
     @Override
-    public void deleteHabitById(UUID habitId) {
+    public void deleteHabitById(UUID habitId ,UUID userId) {
         Habit habit = habitRepo.findHabitById(habitId);
         if(habit == null) {
             throw new NotFoundException("Habit ID " + habitId + " not found");
         }
-        habitRepo.deleteHabitById(habitId)
+        habitRepo.deleteHabitById(habitId, userId)
         ;
     }
 
