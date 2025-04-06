@@ -2,11 +2,14 @@ package springkpsgroup02.kps.Service.ServiceImplement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import springkpsgroup02.kps.Jwt.UserContext;
 import springkpsgroup02.kps.Model.DTO.Request.ProfileUpdateRequest;
 import springkpsgroup02.kps.Model.DTO.Response.ProfileResponse;
 import springkpsgroup02.kps.Model.Entity.Profile;
 import springkpsgroup02.kps.Repository.ProfileRepository;
 import springkpsgroup02.kps.Service.ProfileService;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +18,8 @@ public class ProfileServiceImp implements ProfileService {
 
     @Override
     public ProfileResponse getCurrentUsr() {
-        return profileRepository.getCurrentUser();
+        UUID uuid = UUID.fromString(UserContext.getUserId());
+        return profileRepository.getCurrentUser(uuid);
     }
 
     @Override

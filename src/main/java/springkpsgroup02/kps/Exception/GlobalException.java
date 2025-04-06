@@ -1,4 +1,5 @@
 package springkpsgroup02.kps.Exception;
+
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -61,7 +62,7 @@ public class GlobalException extends BaseResponse {
         }
         return problemDetailResponseEntity(errors);
     }
-
+    
     @ExceptionHandler(WrongInputException.class)
     public ResponseEntity<?> wrongInputException(WrongInputException e){
         return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
