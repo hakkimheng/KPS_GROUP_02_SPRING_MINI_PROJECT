@@ -23,8 +23,8 @@ public class HabitRequest {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Frequency is required")
-    private Frequency frequency;
+    @NotBlank(message = "Frequency is required")
+    private String frequency;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID appUserId;
 }

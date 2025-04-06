@@ -12,6 +12,8 @@ import springkpsgroup02.kps.Repository.HabitRepository;
 import springkpsgroup02.kps.Service.HabitService;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,11 +37,19 @@ public class HabitServiceImp  implements HabitService {
 
     @Override
     public Habit createHabit(HabitRequest habitRequest) {
-        for(Frequency frequency : Frequency.values()) {
-            if(habitRequest.getFrequency() != frequency ){
-                throw new InvalidException("JSON parse error: Cannot coerce empty String (\\\"\\\") to "+ Package.getPackages()+" value (but could if coercion was enabled using `CoercionConfig`");
+
+        boolean isFrequencyFound = false;
+        for (Frequency frequency : Frequency.values()) {
+            if (frequency.name().equalsIgnoreCase(habitRequest.getFrequency())) {
+                isFrequencyFound = true;
+                break;
             }
         }
+
+        if(!isFrequencyFound) {
+            throw new InvalidException("JSON parse error: Cannot deserialize value of type `kh.com.kshrd.miniprojectgamifiedhabittracker.enums.HabitFrequency` from String \\\"a\\\": not one of the values accepted for Enum class: [WEEKLY, MONTHLY, DAILY]");
+        }
+
         return habitRepo.insertHabit(habitRequest);
     }
 
