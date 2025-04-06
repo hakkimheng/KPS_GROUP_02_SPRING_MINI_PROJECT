@@ -7,6 +7,7 @@ import springkpsgroup02.kps.Service.AchievementService;
 
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -14,13 +15,17 @@ public class AchievementServiceImp implements AchievementService {
 
     private final AchievementRepository achievementRepo;
 
+    // get all achievement
     @Override
     public List<Achievement> getAllAchievement(Integer size , Integer page) {
-        System.out.println("imp" + achievementRepo.retrievedAllAchievement(size , page));
         return achievementRepo.retrievedAllAchievement(size , page);
     }
+    // get all achievement by user id
     @Override
-    public List<Achievement> getAchievementById(Integer appUserId , Integer size , Integer page){
-        return achievementRepo.retrievedAchievementById(appUserId , size , page);
+    public List<Achievement> getAchievementById(UUID appUserId , Integer xp,  Integer size , Integer page){
+        return achievementRepo.retrievedAchievementById(appUserId , xp ,  size , page);
     }
+
+
+
 }

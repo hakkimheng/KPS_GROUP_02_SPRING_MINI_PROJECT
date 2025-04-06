@@ -52,3 +52,21 @@ CREATE TABLE habit_logs (
 
 
 select * from habits where habit_id = 'bd40a3c4-4054-44eb-aa98-f4fb100574d2'
+
+
+SELECT * FROM achievements
+WHERE xp_required <= 1000
+  AND achievement_id NOT IN (
+    SELECT achievement_id FROM app_user_achievements
+    WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    );
+
+SELECT * FROM app_users;
+
+SELECT * FROM achievements a INNER JOIN app_user_achievements aua
+                                        ON a.achievement_id = aua.achievement_id
+         INNER JOIN app_users au ON aua.app_user_id = au.app_user_id
+WHERE a.xp_required <= 1000 AND aua.app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+-- LIMIT #{size} OFFSET #{size} * (#{page} - 1)
+
+SELECT * FROM app_user_achievements WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c';

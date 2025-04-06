@@ -5,32 +5,43 @@ import org.springframework.stereotype.Repository;
 import springkpsgroup02.kps.Model.Entity.Achievement;
 
 import java.util.List;
+import java.util.UUID;
 
 @Mapper
 @Repository
 public interface AchievementRepository {
 
-    @Results(id = "achievementMapper" , value = {
-            @Result(property = "achievementId" , column = "achievement_id"),
-            @Result(property = "title" , column = "title"),
-            @Result(property = "description" , column = "description"),
-            @Result(property = "badge" , column = "badge"),
-            @Result(property = "xpRequired" , column = "xp_required")
+    @Results(id = "achievementMapper", value = {
+            @Result(property = "achievementId", column = "achievement_id"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "description", column = "description"),
+            @Result(property = "badge", column = "badge"),
+            @Result(property = "xpRequired", column = "xp_required")
     })
     @Select("SELECT * FROM achievements LIMIT #{size} OFFSET #{size} * (#{page} - 1)")
     List<Achievement> retrievedAllAchievement(@Param("size") Integer size, @Param("page") Integer page);
 
     @ResultMap("achievementMapper")
     @Select("""
-     
-     SELECT  * FROM achievements ac INNER JOIN app_user_achievements au
-     ON ac.achievement_id = au.achievement_id
-     WHERE au.app_user_id = #{au.appUserId}
-     LIMIT #{size} OFFSET #{size} * (#{page} - 1)
-     
-     """)
-    List<Achievement> retrievedAchievementById(@Param("au") Integer appUserId,
+        SELECT * FROM achievements
+        WHERE xp_required <= #{xp}
+        AND achievement_id NOT IN (
+            SELECT achievement_id FROM app_user_achievements
+            WHERE app_user_id = #{appUserId}
+        )
+        LIMIT #{size} OFFSET #{size} * (#{page} - 1)
+    """)
+    List<Achievement> retrievedAchievementById(@Param("appUserId") UUID appUserId,
+                                               @Param("xp") Integer xp,
                                                @Param("size") Integer size,
-                                               @Param("page") Integer page );
+                                               @Param("page") Integer page);
+
+    @Insert("""
+        INSERT INTO app_user_achievements (app_user_id, achievement_id)
+        VALUES (#{appUserId}, #{achievementId})
+    """)
+    void setAchievementForUser(@Param("appUserId") UUID appUserId,
+                               @Param("achievementId") UUID achievementId);
+
 
 }
