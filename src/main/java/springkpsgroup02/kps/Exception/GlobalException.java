@@ -17,25 +17,14 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalException extends BaseResponse {
 
-//    @ExceptionHandler(NotFoundException.class)
-//    public ResponseEntity<?> notFoundException(NotFoundException e) {
-//        return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
-//    }
-
     @ExceptionHandler(InvalidException.class)
-    public ProblemDetail invalidException(InvalidException e) {
-        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        detail.setDetail(e.getMessage());
-        detail.setProperty("timestamp", LocalDateTime.now());
-        return detail;
+    public ResponseEntity<ProblemDetail> invalidException(InvalidException e) {
+        return problemDetailResponseEntityCustom(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ProblemDetail notFoundException(NotFoundException e) {
-        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        detail.setDetail(e.getMessage());
-        detail.setProperty("timestamp", LocalDateTime.now());
-        return detail;
+    public ResponseEntity<ProblemDetail> notFoundException(NotFoundException e) {
+        return problemDetailResponseEntityCustom(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

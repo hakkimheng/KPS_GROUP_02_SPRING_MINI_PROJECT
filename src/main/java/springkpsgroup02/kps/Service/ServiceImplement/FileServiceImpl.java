@@ -37,7 +37,6 @@ public class FileServiceImpl implements FileService {
 
         String originalFileName = file.getOriginalFilename();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
         String newFileName = UUID.randomUUID() + extension;
 
         BucketExistsArgs bucket = BucketExistsArgs.builder()
