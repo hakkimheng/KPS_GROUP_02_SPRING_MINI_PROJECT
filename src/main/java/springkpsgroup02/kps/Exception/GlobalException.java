@@ -13,6 +13,7 @@ import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalException extends BaseResponse {
@@ -35,13 +36,28 @@ public class GlobalException extends BaseResponse {
     public ResponseEntity<ProblemDetail> handlerMethodValidationException (HandlerMethodValidationException e){
         Map<String,String> errors = new HashMap<>();
         for(MessageSourceResolvable pathError : e.getAllErrors()){
-            for(String err : pathError.getCodes()){
+            for(String err : Objects.requireNonNull(pathError.getCodes())){
+                System.out.println(err);
                 if(err.contains("Positive")){
-                    errors.put("PositiveId",pathError.getDefaultMessage());
+                    if(err.contains("size")){
+                        errors.put("size" , pathError.getDefaultMessage());
+                        break;
+                    }
+                    else if(err.contains("page")){
+                        errors.put("page" , pathError.getDefaultMessage());
+                        break;
+                    }
+                    else {
+                        errors.put("PositiveId",pathError.getDefaultMessage());
+                    }
                 }
                 if(err.contains("Min")){
                     errors.put("MinId",pathError.getDefaultMessage());
                 }
+                if(err.contains("page")){
+                    errors.put("page", pathError.getDefaultMessage());
+                }
+
             }
         }
         return problemDetailResponseEntity(errors);

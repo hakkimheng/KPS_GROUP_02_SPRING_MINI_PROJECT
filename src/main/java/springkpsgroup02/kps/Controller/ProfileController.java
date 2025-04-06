@@ -1,5 +1,6 @@
 package springkpsgroup02.kps.Controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -31,7 +32,7 @@ public class ProfileController extends BaseResponse {
     }
     // update current user profile
     @PutMapping
-    public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(@RequestBody ProfileUpdateRequest profileUpdateRequest) {
+    public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(@RequestBody @Valid ProfileUpdateRequest profileUpdateRequest) {
         return responseEntity(true, "Updated current user successfully!", HttpStatus.OK,profileService.updateProfile(profileUpdateRequest));
     }
     // delete current user profile
