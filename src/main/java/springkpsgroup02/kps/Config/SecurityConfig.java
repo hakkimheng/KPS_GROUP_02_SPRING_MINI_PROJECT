@@ -32,6 +32,8 @@ public class SecurityConfig {
                                         "/api/v1/auth/login",
                                         "/api/v1/auth/verify",
                                         "/api/v1/auth/resend",
+                                        "/api/v1/files/upload-file",
+                                        "/api/v1/files/preview-file/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html"
