@@ -51,4 +51,9 @@ public class GlobalException extends BaseResponse {
     public ResponseEntity<?> wrongInputException(WrongInputException e){
         return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
     }
+
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public ResponseEntity<?> handleEmailAlreadyExistException(EmailAlreadyExistException e) {
+        return responseEntity(false,e.getMessage(),HttpStatus.BAD_REQUEST,null);
+    }
 }
