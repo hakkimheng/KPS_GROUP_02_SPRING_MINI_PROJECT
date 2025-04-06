@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springkpsgroup02.kps.Jwt.UserContext;
 import springkpsgroup02.kps.Model.DTO.Response.ApiResponse;
 import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;
 import springkpsgroup02.kps.Model.Entity.Achievement;
@@ -46,9 +47,9 @@ public class AchievementController extends BaseResponse {
             @RequestParam(defaultValue = "1") @Positive Integer page,
             @RequestParam(defaultValue = "10") @Positive Integer size)
     {
-        UUID appUserId = profileRepository.getCurrentUser().getProfileId();
-        Integer xp = profileRepository.getCurrentUser().getXp();
-        List<Achievement> achievementListByUser = achievementService.getAchievementById( appUserId , xp ,page , size );
+        UUID uuid = UUID.fromString(UserContext.getUserId());
+        Integer xp = profileRepository.getCurrentUser(uuid).getXp();
+        List<Achievement> achievementListByUser = achievementService.getAchievementById( uuid , xp ,page , size );
         return responseEntity(true , "Achievements for the specified App User retrieved successfully!" , HttpStatus.OK, achievementListByUser);
     }
 }

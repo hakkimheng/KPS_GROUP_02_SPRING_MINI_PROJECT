@@ -68,15 +68,30 @@ public class FileServiceImpl implements FileService {
     @Override
     public Resource viewFileByFileName(String fileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
 
-        GetObjectArgs object = GetObjectArgs.builder()
-                .bucket(bucketName)
-                .object(fileName)
-                .build();
+        try {
+            // Check if the file exists in the bucket
+            StatObjectArgs statObjectArgs = StatObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .build();
 
-        InputStream result = minioClient.getObject(object);
-        Resource resource = new InputStreamResource(result);
+            // If the file doesn't exist, an exception will be thrown
+            minioClient.statObject(statObjectArgs);
 
-        return resource;
+            // If the file exists, proceed to fetch it
+            GetObjectArgs object = GetObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .build();
+
+            InputStream result = minioClient.getObject(object);
+            Resource resource = new InputStreamResource(result);
+
+            return resource;
+        } catch (ErrorResponseException e) {
+            // File not found, throw a custom NotFoundException
+            throw new NotFoundException("File with name " + fileName + " not found.");
+        }
     }
 
 }
