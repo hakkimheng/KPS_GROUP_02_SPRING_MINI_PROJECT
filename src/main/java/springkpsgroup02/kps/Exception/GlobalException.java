@@ -10,21 +10,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalException extends BaseResponse {
 
-    @ExceptionHandler(InvalidException.class)
-    public ResponseEntity<ProblemDetail> invalidException(InvalidException e) {
-        return problemDetailResponseEntityCustom(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ProblemDetail> notFoundException(NotFoundException e) {
-        return problemDetailResponseEntityCustom(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> notFoundException(NotFoundException e) {
+        return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -40,13 +35,28 @@ public class GlobalException extends BaseResponse {
     public ResponseEntity<ProblemDetail> handlerMethodValidationException (HandlerMethodValidationException e){
         Map<String,String> errors = new HashMap<>();
         for(MessageSourceResolvable pathError : e.getAllErrors()){
-            for(String err : pathError.getCodes()){
+            for(String err : Objects.requireNonNull(pathError.getCodes())){
+                System.out.println(err);
                 if(err.contains("Positive")){
-                    errors.put("PositiveId",pathError.getDefaultMessage());
+                    if(err.contains("size")){
+                        errors.put("size" , pathError.getDefaultMessage());
+                        break;
+                    }
+                    else if(err.contains("page")){
+                        errors.put("page" , pathError.getDefaultMessage());
+                        break;
+                    }
+                    else {
+                        errors.put("PositiveId",pathError.getDefaultMessage());
+                    }
                 }
                 if(err.contains("Min")){
                     errors.put("MinId",pathError.getDefaultMessage());
                 }
+                if(err.contains("page")){
+                    errors.put("page", pathError.getDefaultMessage());
+                }
+
             }
         }
         return problemDetailResponseEntity(errors);

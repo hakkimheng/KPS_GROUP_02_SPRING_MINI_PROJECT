@@ -30,8 +30,8 @@ public class HabitController extends BaseResponse {
 
     // get all habits
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Habit>>> getAllHabits(@RequestParam (defaultValue = "1") @Positive Integer offset, @RequestParam (defaultValue = "10") @Positive Integer limit) {
-        return responseEntity(true,"Fetched all habits successfully!",HttpStatus.OK,habitService.getAllHabits(offset,limit));
+    public ResponseEntity<ApiResponse<List<Habit>>> getAllHabits(@RequestParam (defaultValue = "1") @Positive Integer page, @RequestParam (defaultValue = "10") @Positive Integer size) {
+        return responseEntity(true,"Fetched all habits successfully!",HttpStatus.OK,habitService.getAllHabits(page,size));
     }
 
     // get habit by id

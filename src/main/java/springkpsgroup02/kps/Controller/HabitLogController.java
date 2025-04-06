@@ -29,7 +29,7 @@ public class HabitLogController extends BaseResponse {
 
     // get habit log by habit id
     @GetMapping("{habit-id}")
-    public ResponseEntity<ApiResponse<List<HabitLog>>> getHabitLogsByHabitId(@PathVariable("habit-id") UUID habitId, @RequestParam(defaultValue = "1") @Positive Integer offset, @RequestParam(defaultValue = "10") @Positive Integer limit) {
-        return responseEntity(true,"Fetched all habit logs for the specified habit ID successfully!", HttpStatus.OK, habitLogService.getAllHabitLogsByHabitId(habitId, offset, limit));
+    public ResponseEntity<ApiResponse<List<HabitLog>>> getHabitLogsByHabitId(@PathVariable("habit-id") UUID habitId, @RequestParam(defaultValue = "1") @Positive Integer page, @RequestParam(defaultValue = "10") @Positive Integer size) {
+        return responseEntity(true,"Fetched all habit logs for the specified habit ID successfully!", HttpStatus.OK, habitLogService.getAllHabitLogsByHabitId(habitId, page, size));
     }
 }

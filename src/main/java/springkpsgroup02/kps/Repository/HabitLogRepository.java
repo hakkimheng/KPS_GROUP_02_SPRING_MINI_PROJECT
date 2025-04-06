@@ -21,7 +21,7 @@ public interface HabitLogRepository {
             @Result(property = "status", column = "status"),
             @Result(property = "xpEarned", column = "xp_earned"),
             @Result(property = "habit", column = "habit_id",
-                    one = @One(select = "springkpsgroup02.kps_02_spring_mini_project.Repository.HabitRepository.findHabitById")
+                    one = @One(select = "springkpsgroup02.kps.Repository.HabitRepository.findHabitById")
             )
     })
     HabitLog createHabitLog(@Param("habitLog") HabitLogRequest habitLogRequest);

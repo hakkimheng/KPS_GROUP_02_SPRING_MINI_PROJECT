@@ -32,7 +32,11 @@ public class HabitServiceImp  implements HabitService {
 
     @Override
     public Habit getHabitById(UUID habitId) {
-        return habitRepo.findHabitById(habitId);
+        Habit habit = habitRepo.findHabitById(habitId);
+        if(habit == null) {
+            throw new NotFoundException("Habit ID " + habitId + " not found");
+        }
+        return habit;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class HabitServiceImp  implements HabitService {
         }
 
         if(!isFrequencyFound) {
-            throw new InvalidException("JSON parse error: Cannot deserialize value of type `kh.com.kshrd.miniprojectgamifiedhabittracker.enums.HabitFrequency` from String \\\"a\\\": not one of the values accepted for Enum class: [WEEKLY, MONTHLY, DAILY]");
+            throw new InvalidException("Allow Only [WEEKLY, MONTHLY, DAILY]");
         }
 
         return habitRepo.insertHabit(habitRequest);
@@ -55,12 +59,32 @@ public class HabitServiceImp  implements HabitService {
 
     @Override
     public Habit updateHabitById(UUID habitId, HabitRequest habitRequest) {
-        return habitRepo.updateHabitById(habitId,habitRequest);
+        Habit habit = habitRepo.updateHabitById(habitId, habitRequest);
+        if(habit == null) {
+            throw new NotFoundException("Habit ID " + habitId + " not found");
+        }
+        boolean isFrequencyFound = false;
+        for (Frequency frequency : Frequency.values()) {
+            if (frequency.name().equalsIgnoreCase(habitRequest.getFrequency())) {
+                isFrequencyFound = true;
+                break;
+            }
+        }
+        if(!isFrequencyFound) {
+            throw new InvalidException("Allow Only [WEEKLY, MONTHLY, DAILY]");
+        }
+
+        return habit;
     }
 
     @Override
     public void deleteHabitById(UUID habitId) {
-        habitRepo.deleteHabitById(habitId);
+        Habit habit = habitRepo.findHabitById(habitId);
+        if(habit == null) {
+            throw new NotFoundException("Habit ID " + habitId + " not found");
+        }
+        habitRepo.deleteHabitById(habitId)
+        ;
     }
 
 

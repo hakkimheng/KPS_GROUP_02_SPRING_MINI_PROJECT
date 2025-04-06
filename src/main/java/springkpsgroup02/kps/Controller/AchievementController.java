@@ -32,22 +32,23 @@ public class AchievementController extends BaseResponse {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievement(
-            @RequestParam(defaultValue = "5") @Positive Integer size ,
-            @RequestParam(defaultValue = "1") @Positive Integer page)
+            @RequestParam(defaultValue = "1") @Positive Integer page,
+            @RequestParam(defaultValue = "10") @Positive Integer size )
+
     {
-        List<Achievement> achievementList = achievementService.getAllAchievement(size , page);
+        List<Achievement> achievementList = achievementService.getAllAchievement(page , size );
 
         return responseEntity(true , "Achievements retrieved successfully!", HttpStatus.OK , achievementList);
     }
     // get achievement by current user id and xp completed requirement
     @GetMapping("/app-users")
     public ResponseEntity<ApiResponse<List<Achievement>>> getAllAchievementByAppUser(
-            @RequestParam(defaultValue = "5") @Positive Integer size ,
-            @RequestParam(defaultValue = "1") @Positive Integer page)
+            @RequestParam(defaultValue = "1") @Positive Integer page,
+            @RequestParam(defaultValue = "10") @Positive Integer size)
     {
         UUID appUserId = profileRepository.getCurrentUser().getProfileId();
         Integer xp = profileRepository.getCurrentUser().getXp();
-        List<Achievement> achievementListByUser = achievementService.getAchievementById( appUserId , xp , size , page);
+        List<Achievement> achievementListByUser = achievementService.getAchievementById( appUserId , xp ,page , size );
         return responseEntity(true , "Achievements for the specified App User retrieved successfully!" , HttpStatus.OK, achievementListByUser);
     }
 }

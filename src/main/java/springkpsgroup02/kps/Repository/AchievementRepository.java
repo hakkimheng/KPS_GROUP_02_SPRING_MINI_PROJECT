@@ -19,7 +19,7 @@ public interface AchievementRepository {
             @Result(property = "xpRequired", column = "xp_required")
     })
     @Select("SELECT * FROM achievements LIMIT #{size} OFFSET #{size} * (#{page} - 1)")
-    List<Achievement> retrievedAllAchievement(@Param("size") Integer size, @Param("page") Integer page);
+    List<Achievement> retrievedAllAchievement( @Param("page") Integer page , @Param("size") Integer size);
 
     @ResultMap("achievementMapper")
     @Select("""
@@ -34,8 +34,8 @@ public interface AchievementRepository {
     // get achievement by current user id and xp completed requirement
     List<Achievement> retrievedAchievementById(@Param("appUserId") UUID appUserId,
                                                @Param("xp") Integer xp,
-                                               @Param("size") Integer size,
-                                               @Param("page") Integer page);
+                                               @Param("page") Integer page,
+                                               @Param("size") Integer size);
 
 
 }

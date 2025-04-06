@@ -18,14 +18,14 @@ public class AchievementServiceImp implements AchievementService {
 
     // get all achievement
     @Override
-    public List<Achievement> getAllAchievement(Integer size , Integer page) {
-        return achievementRepo.retrievedAllAchievement(size , page);
+    public List<Achievement> getAllAchievement(Integer page , Integer size) {
+        return achievementRepo.retrievedAllAchievement(page , size);
     }
     // get all achievement by user id
     @Override
-    public List<Achievement> getAchievementById(UUID appUserId , Integer xp,  Integer size , Integer page){
+    public List<Achievement> getAchievementById(UUID appUserId , Integer xp , Integer page ,  Integer size){
 
-        return achievementRepo.retrievedAchievementById(appUserId , xp ,  size , page);
+        return achievementRepo.retrievedAchievementById(appUserId , xp  , page , size);
     }
 
 
