@@ -39,6 +39,7 @@ public class AuthServiceImp implements AuthService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails userDetails = profileRepository.getUserByEmailOrUserName(username);
         if (userDetails == null) throw new UsernameNotFoundException("User Not Found with username: " + username);
+
         return userDetails;
     }
 
