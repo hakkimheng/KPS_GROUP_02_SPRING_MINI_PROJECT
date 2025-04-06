@@ -1,5 +1,6 @@
 package springkpsgroup02.kps.Service;
 
+import jakarta.mail.MessagingException;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +10,7 @@ import springkpsgroup02.kps.Model.DTO.Response.ProfileResponse;
 
 public interface AuthService extends UserDetailsService{
     @Override
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    UserDetails loadUserByUsername(String username);
 
     public ProfileResponse register(ProfileRequest profileRequest);
     public String verify(String email,String OTP);
