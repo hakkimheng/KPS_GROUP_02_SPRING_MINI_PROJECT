@@ -1,5 +1,7 @@
 package springkpsgroup02.kps.Controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class HabitController extends BaseResponse {
 
     // get all habits
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Habit>>> getAllHabits(@RequestParam (defaultValue = "1") Integer offset, @RequestParam (defaultValue = "10") Integer limit) {
+    public ResponseEntity<ApiResponse<List<Habit>>> getAllHabits(@RequestParam (defaultValue = "1") @Positive Integer offset, @RequestParam (defaultValue = "10") @Positive Integer limit) {
         return responseEntity("Fetched all habits successfully!",HttpStatus.OK,habitService.getAllHabits(offset,limit));
     }
 
@@ -39,13 +41,13 @@ public class HabitController extends BaseResponse {
 
     // create habit
     @PostMapping
-    public ResponseEntity<ApiResponse<Habit>> createHabit(@RequestBody HabitRequest habitRequest) {
+    public ResponseEntity<ApiResponse<Habit>> createHabit(@RequestBody @Valid HabitRequest habitRequest) {
         return responseEntity("Create Habit successfully!",HttpStatus.CREATED,habitService.createHabit(habitRequest));
     }
 
     // update habit
     @PutMapping("{habit-id}")
-    public ResponseEntity<ApiResponse<Habit>> updateHabitById(@PathVariable("habit-id") UUID habitId, @RequestBody HabitRequest habitRequest) {
+    public ResponseEntity<ApiResponse<Habit>> updateHabitById(@PathVariable("habit-id") UUID habitId, @RequestBody @Valid HabitRequest habitRequest) {
         return responseEntity("Update Habit successfully",HttpStatus.OK,habitService.updateHabitById(habitId,habitRequest));
     }
 

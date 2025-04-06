@@ -43,6 +43,7 @@ public interface HabitRepository {
             values (#{habit.title},#{habit.description},#{habit.frequency},#{habit.appUserId})
             returning *;
             """)
+    @ResultMap("habitMapper")
     Habit insertHabit(@Param("habit")HabitRequest habitRequest);
 
 

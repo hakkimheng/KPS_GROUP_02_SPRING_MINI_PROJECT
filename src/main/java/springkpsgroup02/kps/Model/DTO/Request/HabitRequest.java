@@ -1,6 +1,7 @@
 package springkpsgroup02.kps.Model.DTO.Request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +13,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class HabitRequest {
+
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank(message = "Description is required")
     private String description;
+
+    @NotBlank(message = "Frequency is required")
     private String frequency;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID appUserId;
-
 }
