@@ -25,7 +25,8 @@ public interface HabitRepository {
             @Result(property = "title", column = "title"),
             @Result(property = "description", column = "description"),
             @Result(property = "frequency", column = "frequency"),
-            @Result(property = "appUserId", column = "app_user_Id"),
+            @Result(property = "profileResponse", column = "app_user_Id",
+            one = @One(select = "springkpsgroup02.kps.Repository.ProfileRepository.getCurrentUser")),
     })
     List<Habit> findAllHabits(Integer offset, Integer limit);
 

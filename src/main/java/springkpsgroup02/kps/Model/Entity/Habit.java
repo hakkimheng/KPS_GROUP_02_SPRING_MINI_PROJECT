@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import springkpsgroup02.kps.Model.DTO.Response.ProfileResponse;
 
 import java.util.UUID;
 
@@ -18,6 +19,6 @@ public class Habit {
     private String description;
     private String frequency;
     private Boolean isActive;
-    private Profile profile;
+    private ProfileResponse profileResponse;
     private String createdAt;
 }
