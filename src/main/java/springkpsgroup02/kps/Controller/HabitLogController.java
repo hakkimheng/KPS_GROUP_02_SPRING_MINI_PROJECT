@@ -1,5 +1,7 @@
 package springkpsgroup02.kps.Controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +23,13 @@ public class HabitLogController extends BaseResponse {
 
     // create habit log
     @PostMapping
-    public ResponseEntity<ApiResponse<HabitLog>> createHabitLog(@RequestBody HabitLogRequest habitLogRequest) {
-        return responseEntity("created habit log successfully", HttpStatus.OK, habitLogService.createHabitLog(habitLogRequest));
+    public ResponseEntity<ApiResponse<HabitLog>> createHabitLog(@RequestBody @Valid HabitLogRequest habitLogRequest) {
+        return responseEntity(true,"created habit log successfully", HttpStatus.OK, habitLogService.createHabitLog(habitLogRequest));
     }
 
     // get habit log by habit id
     @GetMapping("{habit-id}")
-    public ResponseEntity<ApiResponse<List<HabitLog>>> getHabitLogsByHabitId(@PathVariable("habit-id") UUID habitId, @RequestParam(defaultValue = "1") Integer offset, @RequestParam(defaultValue = "10") Integer limit) {
-        return responseEntity("Fetched all habit logs for the specified habit ID successfully!", HttpStatus.OK, habitLogService.getAllHabitLogsByHabitId(habitId, offset, limit));
+    public ResponseEntity<ApiResponse<List<HabitLog>>> getHabitLogsByHabitId(@PathVariable("habit-id") UUID habitId, @RequestParam(defaultValue = "1") @Positive Integer offset, @RequestParam(defaultValue = "10") @Positive Integer limit) {
+        return responseEntity(true,"Fetched all habit logs for the specified habit ID successfully!", HttpStatus.OK, habitLogService.getAllHabitLogsByHabitId(habitId, offset, limit));
     }
 }

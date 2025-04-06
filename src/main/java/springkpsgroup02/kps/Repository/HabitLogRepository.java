@@ -11,8 +11,8 @@ import java.util.UUID;
 public interface HabitLogRepository {
     // insert habit log
     @Select("""
-            INSERT INTO habit_logs(log_date, status, habit_id)
-            values (current_date,#{habitLog.status},#{habitLog.habitId})
+            INSERT INTO habit_logs(log_date, status, habit_id,xp_earned)
+            values (current_date,#{habitLog.status},#{habitLog.habitId},10)
             returning *
             """)
     @Results(id = "habitLogMapper", value = {
