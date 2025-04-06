@@ -18,6 +18,11 @@ public class HabitLogServiceImp implements HabitLogService {
     @Override
     public HabitLog createHabitLog(HabitLogRequest habitLogRequest) {
        habitLogRepository.updateUserXp();
+         Integer xp = habitLogRepository.getXp();
+        if (xp >= 100) {
+            int newLevel = (xp/100);
+            habitLogRepository.updateLevel(newLevel);
+            }
         return habitLogRepository.createHabitLog(habitLogRequest);
     }
 
