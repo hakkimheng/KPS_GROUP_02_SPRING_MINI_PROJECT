@@ -10,8 +10,9 @@ import java.util.Map;
 public abstract class BaseResponse {
 
     // Don't Edit It
-    public <T> ResponseEntity<ApiResponse<T>> responseEntity(String message, HttpStatus httpStatus, T payload) {
+    public <T> ResponseEntity<ApiResponse<T>> responseEntity(Boolean success, String message, HttpStatus httpStatus, T payload) {
         ApiResponse<T> apiResponse = ApiResponse.<T>builder()
+                .success(success)
                 .message(message)
                 .status(httpStatus)
                 .payload(payload)
