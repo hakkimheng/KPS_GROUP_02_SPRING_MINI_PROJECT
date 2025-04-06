@@ -10,15 +10,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import springkpsgroup02.kps.Model.DTO.Response.BaseResponse;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalException extends BaseResponse {
 
+//    @ExceptionHandler(NotFoundException.class)
+//    public ResponseEntity<?> notFoundException(NotFoundException e) {
+//        return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
+//    }
+
+    @ExceptionHandler(InvalidException.class)
+    public ProblemDetail invalidException(InvalidException e) {
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        detail.setDetail(e.getMessage());
+        detail.setProperty("timestamp", LocalDateTime.now());
+        return detail;
+    }
+
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> notFoundException(NotFoundException e) {
-        return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
+    public ProblemDetail notFoundException(NotFoundException e) {
+        ProblemDetail detail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        detail.setDetail(e.getMessage());
+        detail.setProperty("timestamp", LocalDateTime.now());
+        return detail;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
