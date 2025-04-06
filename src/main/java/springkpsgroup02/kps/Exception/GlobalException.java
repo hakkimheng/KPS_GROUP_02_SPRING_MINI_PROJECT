@@ -72,4 +72,14 @@ public class GlobalException extends BaseResponse {
     public ResponseEntity<?> handleEmailAlreadyExistException(EmailAlreadyExistException e) {
         return responseEntity(false,e.getMessage(),HttpStatus.BAD_REQUEST,null);
     }
+
+    @ExceptionHandler(ExpireOTPCodeException.class)
+    public ResponseEntity<?> handleExpireOTPCodeException(ExpireOTPCodeException e) {
+        return responseEntity(false,e.getMessage(),HttpStatus.BAD_REQUEST,null);
+    }
+
+    @ExceptionHandler(EmailNotRegisterException.class)
+    public ResponseEntity<?> handleEmailNotRegisterException(EmailNotRegisterException e) {
+        return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
+    }
 }
