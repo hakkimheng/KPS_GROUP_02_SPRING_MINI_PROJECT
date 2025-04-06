@@ -33,7 +33,7 @@ public class HabitController extends BaseResponse {
     // get habit by id
     @GetMapping("{habit-id}")
     public ResponseEntity<ApiResponse<Habit>> getHabit(@PathVariable("habit-id") UUID habitId) {
-        return responseEntity("Fetched habit Id "+habitId+" successfully!",HttpStatus.OK,habitService.getHabitById(habitId));
+        return responseEntity("Habit fetched successfully!",HttpStatus.OK,habitService.getHabitById(habitId));
 
     }
 
