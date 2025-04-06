@@ -9,18 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import springkpsgroup02.kps.Exception.EmailAlreadyExistException;
+import springkpsgroup02.kps.Exception.EmailNotRegisterException;
+import springkpsgroup02.kps.Exception.ExpireOTPCodeException;
 import springkpsgroup02.kps.Exception.NotFoundException;
 import springkpsgroup02.kps.Model.DTO.Request.ProfileRequest;
 import springkpsgroup02.kps.Model.DTO.Response.ProfileResponse;
-import springkpsgroup02.kps.Model.DTO.Response.TokenResponse;
 import springkpsgroup02.kps.Model.Entity.EmailVerification;
 import springkpsgroup02.kps.Model.Entity.Profile;
 import springkpsgroup02.kps.Repository.EmailVerificationRepo;
 import springkpsgroup02.kps.Repository.ProfileRepository;
 import springkpsgroup02.kps.Service.AuthService;
 
-import javax.sound.midi.MidiMessage;
 import java.time.LocalTime;
 import java.util.Random;
 
@@ -31,6 +32,7 @@ public class AuthServiceImp implements AuthService {
     private final EmailVerificationRepo emailVerificationRepo;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private SpringTemplateEngine templateEngine;
 
     @Value("${spring.mail.username}")
     private String adminEmail;
@@ -39,7 +41,6 @@ public class AuthServiceImp implements AuthService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails userDetails = profileRepository.getUserByEmailOrUserName(username);
         if (userDetails == null) throw new UsernameNotFoundException("User Not Found with username: " + username);
-
         return userDetails;
     }
 
@@ -53,7 +54,6 @@ public class AuthServiceImp implements AuthService {
                 tempProfile.setProfileImage(profileRequest.getProfileImage());
                 tempProfile.setIsVerified(false);
                 ProfileResponse profileResponse = profileRepository.registerUser(tempProfile);
-        System.out.println(profileResponse.getProfileId());
 
                 // Prepare Email
                 var randomNumber =  new Random().nextInt(99999);
@@ -81,13 +81,12 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public String verify(String email, String OTP) {
-//        try{
             Profile emailUser = profileRepository.getUserByEmailOrUserName(email);
             if(emailUser == null) throw new NotFoundException("Email Not Register Yet");
 
             EmailVerification user = emailVerificationRepo.getUserVerifyById(emailUser.getId());
             if(LocalTime.now().isAfter(user.getExpireTime())){
-                throw new EmailAlreadyExistException("Expire Code");
+                throw new ExpireOTPCodeException("Expire Code");
             }
 
             if(user.getVerification().equals(OTP)){
@@ -97,16 +96,13 @@ public class AuthServiceImp implements AuthService {
                 }
                 return "Verify Success";
             }
-            return "Verify Failed Wrong OTP";
-//        } catch (Exception e) {
-//            throw new EmailAlreadyExistException("Email Not Found!");
-//        }
+            return "Wrong OTP";
     }
 
     @Override
     public String reSendOTP(String email) {
         Profile emailUser = profileRepository.getUserByEmailOrUserName(email);
-        if(emailUser == null) throw new NotFoundException("Email Not Register Yet");
+        if(emailUser == null) throw new EmailNotRegisterException("Email Not Register Yet");
 
         EmailVerification user = emailVerificationRepo.getUserVerifyById(emailUser.getId());
 
@@ -139,5 +135,4 @@ public class AuthServiceImp implements AuthService {
         }
         return "Resent";
     }
-
 }
