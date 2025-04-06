@@ -18,6 +18,6 @@ public class Habit {
     private String description;
     private String frequency;
     private Boolean isActive;
-    private UUID appUserId;
+    private Profile profile;
     private String createdAt;
 }
