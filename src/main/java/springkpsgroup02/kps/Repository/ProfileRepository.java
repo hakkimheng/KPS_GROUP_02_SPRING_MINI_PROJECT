@@ -12,15 +12,6 @@ public interface ProfileRepository {
     SELECT * FROM app_users
     WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
 """)
-    ProfileResponse getCurrentUser();
-
-
-    @Select("""
-    UPDATE app_users
-    SET username = #{profileUpdateRequest.username}, profile_image = #{profileUpdateRequest.profileImage}
-    WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
-    RETURNING *;
-""")
     @Results(id = "profileMapper", value = {
             @Result(property = "profileId", column = "app_user_id"),
             @Result(property = "username", column = "username"),
@@ -31,6 +22,16 @@ public interface ProfileRepository {
             @Result(property = "isVerified", column = "is_verified"),
             @Result(property = "createdAt", column = "created_at"),
     })
+    ProfileResponse getCurrentUser();
+
+
+    @Select("""
+    UPDATE app_users
+    SET username = #{profileUpdateRequest.username}, profile_image = #{profileUpdateRequest.profileImage}
+    WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    RETURNING *;
+""")
+   @ResultMap("profileMapper")
     ProfileResponse updateProfile(@Param("profileUpdateRequest") ProfileUpdateRequest profileUpdateRequest);
 
     @Delete("""
