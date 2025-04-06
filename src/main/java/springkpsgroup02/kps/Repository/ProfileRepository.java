@@ -33,17 +33,17 @@ public interface ProfileRepository {
     @Select("""
                 UPDATE app_users
                 SET username = #{profileUpdateRequest.username}, profile_image = #{profileUpdateRequest.profileImage}
-                WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+                WHERE app_user_id = #{userId}
                 RETURNING *;
             """)
     @ResultMap("profileMapper")
-    ProfileResponse updateProfile(@Param("profileUpdateRequest") ProfileUpdateRequest profileUpdateRequest);
+    ProfileResponse updateProfile(@Param("profileUpdateRequest") ProfileUpdateRequest profileUpdateRequest,UUID userId);
 
     @Delete("""
             DELETE FROM app_users
-            WHERE app_user_id = 'f7983eab-0775-4920-872b-6a90375d5ce4'
+            WHERE app_user_id = #{userId}
             """)
-    void deleteProfile();
+    void deleteProfile(UUID userId);
 
     @Select("SELECT * FROM app_users WHERE email = #{user} OR username = #{user}")
     @Result(property = "id", column = "app_user_id")

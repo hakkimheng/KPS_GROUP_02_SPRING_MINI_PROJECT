@@ -60,7 +60,7 @@ public class AuthController extends BaseResponse {
 
     @PostMapping("/verify")
     @Operation( summary = "Verify email with OTP")
-    public ResponseEntity<ApiResponse<String>> register(@RequestParam String email, @RequestParam String OTP){
+    public ResponseEntity<ApiResponse<String>> verifyOTP(@RequestParam String email, @RequestParam String OTP){
         return responseEntity(true,"Verify Success", HttpStatus.ACCEPTED,authService.verify(email,OTP));
     }
 

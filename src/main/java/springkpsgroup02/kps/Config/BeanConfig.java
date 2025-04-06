@@ -25,4 +25,6 @@ public class BeanConfig {
         return config.getAuthenticationManager();
     }
 
+
+
 }

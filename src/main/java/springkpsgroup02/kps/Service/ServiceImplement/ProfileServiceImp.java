@@ -18,17 +18,16 @@ public class ProfileServiceImp implements ProfileService {
 
     @Override
     public ProfileResponse getCurrentUsr() {
-        UUID uuid = UUID.fromString(UserContext.getUserId());
-        return profileRepository.getCurrentUser(uuid);
+        return profileRepository.getCurrentUser(UserContext.getUserIdAsUUID());
     }
 
     @Override
     public ProfileResponse updateProfile(ProfileUpdateRequest profileUpdateRequest) {
-        return profileRepository.updateProfile(profileUpdateRequest);
+        return profileRepository.updateProfile(profileUpdateRequest,UserContext.getUserIdAsUUID());
     }
 
     @Override
     public void deleteProfile() {
-        profileRepository.deleteProfile();
+        profileRepository.deleteProfile(UserContext.getUserIdAsUUID());
     }
 }

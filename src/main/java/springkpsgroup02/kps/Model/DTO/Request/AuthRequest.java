@@ -1,5 +1,6 @@
 package springkpsgroup02.kps.Model.DTO.Request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,5 +15,6 @@ public class AuthRequest {
     private String identifier;
 
     @NotBlank(message = "Password is required")
+    @Schema(defaultValue = "PASSWORD")
     private String password;
 }
