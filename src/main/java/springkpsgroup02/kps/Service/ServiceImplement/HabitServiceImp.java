@@ -3,8 +3,11 @@ package springkpsgroup02.kps.Service.ServiceImplement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import springkpsgroup02.kps.Exception.InvalidException;
+import springkpsgroup02.kps.Exception.NotFoundException;
 import springkpsgroup02.kps.Model.DTO.Request.HabitRequest;
 import springkpsgroup02.kps.Model.Entity.Habit;
+import springkpsgroup02.kps.Model.Enums.Frequency;
 import springkpsgroup02.kps.Repository.HabitRepository;
 import springkpsgroup02.kps.Service.HabitService;
 
@@ -32,6 +35,11 @@ public class HabitServiceImp  implements HabitService {
 
     @Override
     public Habit createHabit(HabitRequest habitRequest) {
+        for(Frequency frequency : Frequency.values()) {
+            if(habitRequest.getFrequency() != frequency ){
+                throw new InvalidException("JSON parse error: Cannot coerce empty String (\\\"\\\") to "+ Package.getPackages()+" value (but could if coercion was enabled using `CoercionConfig`");
+            }
+        }
         return habitRepo.insertHabit(habitRequest);
     }
 
