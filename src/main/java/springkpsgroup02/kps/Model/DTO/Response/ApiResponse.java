@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
@@ -14,14 +14,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApiResponse<T> {
+
+    private Boolean success;
     private String message;
-
-    private HttpStatusCode status;
-
-
+    private HttpStatus status;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T payload;
-
     @Builder.Default
     private LocalDateTime timestamps = LocalDateTime.now();
 }
