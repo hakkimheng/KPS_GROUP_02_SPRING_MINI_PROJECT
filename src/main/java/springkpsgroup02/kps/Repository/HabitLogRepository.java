@@ -41,6 +41,15 @@ public interface HabitLogRepository {
             """)
     void updateUserXp();
 
-
-
+    @Select("""
+    SELECT xp from app_users
+    WHERE app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    """)
+    @Result(property = "xp" , column = "xp")
+    Integer getXp();
+    @Update("""
+    UPDATE app_users SET level = #{level}
+    where app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+    """)
+    void updateLevel(Integer level);
 }
