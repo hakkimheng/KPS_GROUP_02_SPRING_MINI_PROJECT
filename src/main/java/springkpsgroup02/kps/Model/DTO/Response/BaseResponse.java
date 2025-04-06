@@ -31,4 +31,11 @@ public abstract class BaseResponse {
         problemDetail.setProperty("error",errors);
         return new ResponseEntity<>(problemDetail,HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity<ProblemDetail> problemDetailResponseEntityCustom(String error, HttpStatus status) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(status);
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setDetail(error);
+        return new ResponseEntity<>(problemDetail,status);
+    }
 }
