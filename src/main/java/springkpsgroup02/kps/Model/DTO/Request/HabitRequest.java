@@ -24,6 +24,7 @@ public class HabitRequest {
     private String description;
 
     @NotNull(message = "Frequency is required")
+
     private Frequency frequency;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID appUserId;
