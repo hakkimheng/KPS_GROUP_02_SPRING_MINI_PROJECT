@@ -1,4 +1,4 @@
-package springkpsgroup02.kps.Model.Entity;
+package springkpsgroup02.kps.Model.DTO.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,13 +8,12 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Profile {
-    private UUID id;
+@NoArgsConstructor
+public class ProfileResponse {
+    private UUID profileId;
     private String username;
     private String email;
-    private String password;
     private Integer level;
     private Integer xp;
     private String profileImage;
