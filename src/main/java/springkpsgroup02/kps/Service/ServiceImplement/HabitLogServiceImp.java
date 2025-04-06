@@ -17,6 +17,7 @@ public class HabitLogServiceImp implements HabitLogService {
 
     @Override
     public HabitLog createHabitLog(HabitLogRequest habitLogRequest) {
+       habitLogRepository.updateUserXp();
         return habitLogRepository.createHabitLog(habitLogRequest);
     }
 

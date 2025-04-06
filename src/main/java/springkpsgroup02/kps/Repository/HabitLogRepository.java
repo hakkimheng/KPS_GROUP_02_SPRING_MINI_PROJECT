@@ -11,8 +11,8 @@ import java.util.UUID;
 public interface HabitLogRepository {
     // insert habit log
     @Select("""
-            INSERT INTO habit_logs(log_date, status, habit_id,xp_earned)
-            values (current_date,#{habitLog.status},#{habitLog.habitId},10)
+            INSERT INTO habit_logs(status, habit_id,xp_earned)
+            values (#{habitLog.status},#{habitLog.habitId},10)
             returning *
             """)
     @Results(id = "habitLogMapper", value = {
@@ -29,9 +29,18 @@ public interface HabitLogRepository {
     // get all habit logs
     @Select("""
             select * from habit_logs where habit_id = #{habitId}
-            limit #{limit}
             offset #{limit} * (#{offset} - 1)
+            limit #{limit}
             """)
     @ResultMap("habitLogMapper")
     List<HabitLog> findAllHabitLogsByHabitId(UUID habitId, Integer offset, Integer limit);
+
+    @Update("""
+            update app_users set xp = xp + 10
+            where app_user_id = '3fe9b4b6-012c-4a65-a9d9-5938c6fc8c5c'
+            """)
+    void updateUserXp();
+
+
+
 }
