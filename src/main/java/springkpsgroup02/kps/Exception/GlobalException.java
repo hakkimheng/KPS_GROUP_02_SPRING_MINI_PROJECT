@@ -1,8 +1,10 @@
 package springkpsgroup02.kps.Exception;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +37,7 @@ public class GlobalException extends BaseResponse {
         Map<String,String> errors = new HashMap<>();
         for(MessageSourceResolvable pathError : e.getAllErrors()){
             for(String err : pathError.getCodes()){
+                System.out.println(err);
                 if(err.contains("Positive")){
                     errors.put("PositiveId",pathError.getDefaultMessage());
                 }
@@ -49,5 +52,14 @@ public class GlobalException extends BaseResponse {
     @ExceptionHandler(WrongInputException.class)
     public ResponseEntity<?> wrongInputException(WrongInputException e){
         return responseEntity(false,e.getMessage(),HttpStatus.NOT_FOUND,null);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleInvalidEnum(HttpMessageNotReadableException ex) {
+        Throwable cause = ex.getCause();
+        if (cause instanceof InvalidFormatException && cause.getMessage().contains("Frequency")) {
+            return ResponseEntity.badRequest().body("Invalid frequency. Allowed values: DAILY, WEEKLY, MONTHLY, YEARLY");
+        }
+        return ResponseEntity.badRequest().body("Invalid request format");
     }
 }

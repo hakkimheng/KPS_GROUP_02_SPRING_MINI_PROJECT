@@ -51,4 +51,3 @@ CREATE TABLE habit_logs (
 );
 
 
-select * from habits where habit_id = 'bd40a3c4-4054-44eb-aa98-f4fb100574d2'
