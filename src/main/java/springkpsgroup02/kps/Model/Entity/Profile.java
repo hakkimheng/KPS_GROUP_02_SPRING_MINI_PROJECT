@@ -27,7 +27,7 @@ public class Profile implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override
@@ -52,6 +52,6 @@ public class Profile implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isVerified;
     }
 }

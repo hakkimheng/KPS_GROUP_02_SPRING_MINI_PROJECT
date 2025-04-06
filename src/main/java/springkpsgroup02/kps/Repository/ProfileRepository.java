@@ -1,8 +1,6 @@
 package springkpsgroup02.kps.Repository;
 
 import org.apache.ibatis.annotations.*;
-import org.springframework.security.core.userdetails.UserDetails;
-import springkpsgroup02.kps.Model.DTO.Request.ProfileRequest;
 import springkpsgroup02.kps.Model.DTO.Request.ProfileUpdateRequest;
 import springkpsgroup02.kps.Model.DTO.Response.ProfileResponse;
 import springkpsgroup02.kps.Model.Entity.Profile;
@@ -28,6 +26,9 @@ public interface ProfileRepository {
     })
     ProfileResponse getCurrentUser(UUID userId);
 
+    @Select("INSERT INTO app_users(username,email,password,profile_image) VALUES (#{p.username},#{p.email},#{p.password},#{p.profileImage}) RETURNING *")
+    @ResultMap("profileMapper")
+    public ProfileResponse registerUser(@Param("p") Profile profile);
 
     @Select("""
                 UPDATE app_users
@@ -50,4 +51,11 @@ public interface ProfileRepository {
     @Result(property = "isVerified", column = "is_verified")
     @Result(property = "createdAt", column = "created_at")
     public Profile getUserByEmailOrUserName(String user);
+
+    @Update("""
+                UPDATE app_users
+                SET is_verified = #{isVerify}
+                WHERE app_user_id = #{uuid}
+            """)
+    void updateProfileToVerify(UUID uuid, boolean isVerify);
 }
